@@ -8,6 +8,7 @@ import com.astro.test.irwan.core.data.paging.GithubRemoteMediator
 import com.astro.test.irwan.core.data.source.local.LocalDataSource
 import com.astro.test.irwan.core.data.source.local.entity.GithubEntity
 import com.astro.test.irwan.core.data.source.remote.RemoteDataSource
+import com.astro.test.irwan.utils.Constant.KEY_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 
 class AstroRepositoryImpl(
@@ -16,12 +17,23 @@ class AstroRepositoryImpl(
 ) : AstroRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun users(username: String, page: Int, perPage: Int): Flow<PagingData<GithubEntity>> {
+    override fun users(
+        username: String,
+        isAsc: Boolean,
+        page: Int,
+        perPage: Int
+    ): Flow<PagingData<GithubEntity>> {
         return Pager(
-            config = PagingConfig(10),
-            remoteMediator = GithubRemoteMediator(username, remoteDataSource, localDataSource),
+            config = PagingConfig(
+                pageSize = KEY_PER_PAGE
+            ),
+            remoteMediator = GithubRemoteMediator(
+                username,
+                remoteDataSource,
+                localDataSource
+            ),
             pagingSourceFactory = {
-                localDataSource.getUser(username)
+                localDataSource.getUser(username, isAsc)
             }
         ).flow
     }

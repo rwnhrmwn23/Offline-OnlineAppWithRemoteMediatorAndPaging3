@@ -13,6 +13,9 @@ data class GithubEntity(
     @ColumnInfo(name = "name")
     val name: String,
 
+    @ColumnInfo(name = "image")
+    val image: String,
+
     @ColumnInfo(name = "isFavorite")
     val is_favorite: Boolean
 )

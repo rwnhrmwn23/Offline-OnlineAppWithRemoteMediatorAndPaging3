@@ -1,5 +1,6 @@
 package com.astro.test.irwan.utils
 
+import android.view.View
 import com.astro.test.irwan.core.data.source.remote.network.ApiResponse
 import com.astro.test.irwan.utils.ErrorUtils.getErrorThrowableMsg
 import kotlinx.coroutines.flow.Flow
@@ -24,4 +25,12 @@ fun <T, U> Response<T>.asFlowStateEvent(mapper: (T) -> U): FlowState<U> {
         }
         emit(response)
     }
+}
+
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
 }

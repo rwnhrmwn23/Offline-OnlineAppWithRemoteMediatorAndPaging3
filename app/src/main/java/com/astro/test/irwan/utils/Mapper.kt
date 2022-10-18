@@ -9,7 +9,7 @@ object Mapper {
     fun List<GithubResponse.Item>?.mapToGithub(): List<Github> {
         val listUsers = ArrayList<Github>()
         this?.map {
-            listUsers.add(Github(it.id ?: 0, it.login.orEmpty()))
+            listUsers.add(Github(it.id ?: 0, it.login.orEmpty(), it.avatar_url.orEmpty()))
         }
         return listUsers
     }
@@ -20,6 +20,7 @@ object Mapper {
             val story = GithubEntity(
                 id = it.id,
                 name = it.name,
+                image = it.image,
                 is_favorite = false
             )
             githubEntities.add(story)

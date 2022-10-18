@@ -7,7 +7,7 @@ import com.astro.test.irwan.core.data.source.local.room.GithubDao
 
 class LocalDataSource(private val githubDao: GithubDao, private val remoteKeysDao: RemoteKeysDao) {
 
-    fun getUser(username: String) = githubDao.getUser(username)
+    fun getUser(username: String, isAsc: Boolean) = githubDao.getUser(username, isAsc)
 
     suspend fun insertUsers(github: List<GithubEntity>) = githubDao.insertUsers(github)
 

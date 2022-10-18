@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">AstroTest</string>
     <string name="favorite">Favorite</string>
+    <string name="search">Search</string>
+    <string name="retry">Retry</string>
+    <string name="desc">DESC</string>
+    <string name="asc">ASC</string>
 </resources>

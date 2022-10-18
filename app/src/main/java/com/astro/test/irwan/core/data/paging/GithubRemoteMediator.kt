@@ -52,7 +52,7 @@ class GithubRemoteMediator(
         }
 
         return try {
-            val responseData = remoteDataSource.users(username, state.config.pageSize, 10)
+            val responseData = remoteDataSource.users(username, page, state.config.pageSize)
             responseData.collect {
                 data = when (it) {
                     is ApiResponse.Success -> {

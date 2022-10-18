@@ -42,7 +42,7 @@ val networkModule = module {
         client.addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()
-                .addHeader("Authorization", "token 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")
+                .addHeader("Authorization", "token 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")
             val request = requestBuilder.build()
             chain.proceed(request)
         }
