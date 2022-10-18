@@ -5,4 +5,6 @@
     <string name="retry">Retry</string>
     <string name="desc">DESC</string>
     <string name="asc">ASC</string>
+    <string name="user_not_found">User not found</string>
+    <string name="github_user">Github User</string>
 </resources>

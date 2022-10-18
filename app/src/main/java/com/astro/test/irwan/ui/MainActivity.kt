@@ -6,14 +6,17 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.RadioButton
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.astro.test.irwan.databinding.ActivityMainBinding
-import com.astro.test.irwan.utils.BaseActivityBinding
+import com.astro.test.irwan.utils.*
 import com.astro.test.irwan.utils.Constant.KEY_PAGE
 import com.astro.test.irwan.utils.Constant.KEY_PER_PAGE
 import com.astro.test.irwan.utils.PreferenceManager.Companion.getPref
-import com.astro.test.irwan.utils.gone
-import com.astro.test.irwan.utils.visible
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
 
@@ -55,7 +58,6 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
             binding.rbDesc.isChecked = true
         }
 
-
         binding.rbGroup.setOnCheckedChangeListener { _, checkedId ->
             when (findViewById<RadioButton>(checkedId)) {
                 binding.rbAsc -> {
@@ -70,23 +72,62 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
     }
 
     private fun loadUser() {
-        val username = binding.edtSearch.text.toString()
-        if (username.isNotEmpty()) {
-            mainViewModel.users(
-                username,
-                getPref(this).prefSortAsc,
-                KEY_PAGE,
-                KEY_PER_PAGE
-            ).observe(this) { response ->
-                if (response != null) {
+        with(binding) {
+            val username = edtSearch.text.toString()
+            if (username.isNotEmpty()) {
+                mainViewModel.users(
+                    username,
+                    getPref(this@MainActivity).prefSortAsc,
+                    KEY_PAGE,
+                    KEY_PER_PAGE
+                ).observe(this@MainActivity) { response ->
                     mainAdapter.submitData(lifecycle, response)
-                    binding.rvUser.visible()
-                    binding.rbGroup.visible()
-                } else {
-                    binding.rvUser.gone()
-                    binding.rbGroup.gone()
+
+                    lifecycleScope.launch {
+                        mainAdapter.loadStateFlow.collectLatest { loadStates ->
+                            when (loadStates.refresh) {
+                                is LoadState.Loading -> {
+                                    progressCircular.visible()
+                                    rvUser.gone()
+                                    rbGroup.gone()
+                                    tvUserNotFound.gone()
+                                }
+                                is LoadState.NotLoading -> {
+                                    if (mainAdapter.itemCount > 0) {
+                                        rvUser.visible()
+                                        rbGroup.visible()
+                                        tvUserNotFound.gone()
+                                        progressCircular.gone()
+                                        rvUser.layoutManager?.smoothScrollToPosition(
+                                            rvUser,null, 0
+                                        )
+                                    } else {
+                                        noData(true)
+                                    }
+                                }
+                                is LoadState.Error -> {
+                                    noData(true)
+                                }
+                            }
+                        }
+                    }
+
                 }
+            } else {
+                noData(false)
             }
+        }
+    }
+
+    private fun noData(showErrorMessage: Boolean) {
+        with(binding) {
+            rvUser.gone()
+            rbGroup.gone()
+            progressCircular.gone()
+            if (showErrorMessage)
+                tvUserNotFound.visible()
+            else
+                tvUserNotFound.gone()
         }
     }
 }

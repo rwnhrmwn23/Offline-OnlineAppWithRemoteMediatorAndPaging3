@@ -9,5 +9,6 @@ import com.astro.test.irwan.core.domain.usecase.AstroUseCase
 class MainViewModel(private val astroUseCase: AstroUseCase) : ViewModel() {
 
     fun users(username: String, isAsc: Boolean, page: Int, perPage: Int) =
-        astroUseCase.users(username, isAsc, page, perPage).cachedIn(viewModelScope).asLiveData()
+        astroUseCase.users(username, isAsc, page, perPage)
+            .cachedIn(viewModelScope).asLiveData()
 }

@@ -68,10 +68,6 @@ class GithubRemoteMediator(
             }
             val endOfPaginationReached = data?.isEmpty() == true
 
-            if (loadType == LoadType.REFRESH) {
-                localDataSource.deleteUsers()
-                localDataSource.deleteRemoteKeys()
-            }
             val prevKey = if (page == 1) null else page - 1
             val nextKey = if (endOfPaginationReached) null else page + 1
             val keys = data?.map {
