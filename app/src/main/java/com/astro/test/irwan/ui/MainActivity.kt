@@ -1,12 +1,19 @@
 package com.astro.test.irwan.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.astro.test.irwan.R
+import com.astro.test.irwan.databinding.ActivityMainBinding
+import com.astro.test.irwan.utils.BaseActivityBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
+
+
+    override fun inflateBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
     }
+
+    override fun onCreateBinding(savedInstanceState: Bundle?) {
+
+
+    }
+
 }
