@@ -14,17 +14,24 @@ object Mapper {
         return listUsers
     }
 
-    fun List<Github>.mapToEntities(): List<GithubEntity> {
+    fun List<Github>.mapToGithubEntities(): List<GithubEntity> {
         val githubEntities = ArrayList<GithubEntity>()
         for (it in this) {
             val story = GithubEntity(
                 id = it.id,
                 name = it.name,
                 image = it.image,
-                is_favorite = false
+                isFavorite = false
             )
             githubEntities.add(story)
         }
         return githubEntities
     }
+
+    fun Github.mapToGithubEntity() = GithubEntity(
+        id = id,
+        name = name,
+        image = image,
+        isFavorite = isFavorite
+    )
 }

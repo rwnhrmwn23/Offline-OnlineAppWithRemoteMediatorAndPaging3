@@ -6,9 +6,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.astro.test.irwan.core.data.paging.GithubRemoteMediator
 import com.astro.test.irwan.core.data.source.local.LocalDataSource
-import com.astro.test.irwan.core.data.source.local.entity.GithubEntity
 import com.astro.test.irwan.core.data.source.remote.RemoteDataSource
+import com.astro.test.irwan.core.domain.model.Github
 import com.astro.test.irwan.utils.Constant.KEY_PER_PAGE
+import com.astro.test.irwan.utils.Mapper.mapToGithubEntity
 import kotlinx.coroutines.flow.Flow
 
 class AstroRepositoryImpl(
@@ -22,7 +23,7 @@ class AstroRepositoryImpl(
         isAsc: Boolean,
         page: Int,
         perPage: Int
-    ): Flow<PagingData<GithubEntity>> {
+    ): Flow<PagingData<Github>> {
         return Pager(
             config = PagingConfig(
                 pageSize = KEY_PER_PAGE
@@ -36,6 +37,11 @@ class AstroRepositoryImpl(
                 localDataSource.getUser(username, isAsc)
             }
         ).flow
+    }
+
+    override suspend fun updateFavorite(github: Github, state: Boolean) {
+        val githubEntity = github.mapToGithubEntity()
+        localDataSource.updateFavorite(githubEntity, state)
     }
 
 }

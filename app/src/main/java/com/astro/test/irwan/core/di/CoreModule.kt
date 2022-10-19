@@ -42,7 +42,7 @@ val networkModule = module {
         client.addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()
-                .addHeader("Authorization", "token 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")
+                .addHeader("Authorization", "token {{YOUR_TOKEN_GITHUB}}")
             val request = requestBuilder.build()
             chain.proceed(request)
         }

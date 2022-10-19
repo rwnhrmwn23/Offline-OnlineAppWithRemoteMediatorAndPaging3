@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.astro.test.irwan.core.data.source.local.entity.GithubEntity
+import com.astro.test.irwan.core.domain.model.Github
 import com.astro.test.irwan.databinding.LayoutListUserBinding
 
 class MainAdapter :
-    PagingDataAdapter<GithubEntity, MainAdapter.HomeViewHolder>(DIFF_CALLBACK) {
+    PagingDataAdapter<Github, MainAdapter.HomeViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((GithubEntity) -> Unit)? = null
+    var onItemClick: ((Github) -> Unit)? = null
 
     inner class HomeViewHolder(private val binding: LayoutListUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GithubEntity) {
+        fun bind(data: Github) {
             binding.data = data
             binding.executePendingBindings()
 
@@ -39,17 +39,17 @@ class MainAdapter :
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GithubEntity>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Github>() {
             override fun areItemsTheSame(
-                oldItem: GithubEntity,
-                newItem: GithubEntity
+                oldItem: Github,
+                newItem: Github
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: GithubEntity,
-                newItem: GithubEntity
+                oldItem: Github,
+                newItem: Github
             ): Boolean {
                 return oldItem.id == newItem.id
             }

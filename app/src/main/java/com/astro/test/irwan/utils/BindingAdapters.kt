@@ -2,6 +2,7 @@ package com.astro.test.irwan.utils
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.astro.test.irwan.R
@@ -29,5 +30,17 @@ fun getProgressDrawable(context: Context): CircularProgressDrawable {
         strokeWidth = 10F
         centerRadius = 50F
         start()
+    }
+}
+
+@BindingAdapter("android:setImageFavorite")
+fun ImageView.setImageFavorite(isFavorite: Boolean?) {
+    try {
+        if (isFavorite == true)
+            setColorFilter(ContextCompat.getColor(context, R.color.red))
+        else
+            setColorFilter(ContextCompat.getColor(context, R.color.black))
+    } catch (e: Exception) {
+        e.toString()
     }
 }

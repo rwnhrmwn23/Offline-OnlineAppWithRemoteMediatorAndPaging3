@@ -6,13 +6,16 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.astro.test.irwan.databinding.ActivityMainBinding
-import com.astro.test.irwan.utils.*
+import com.astro.test.irwan.utils.BaseActivityBinding
 import com.astro.test.irwan.utils.Constant.KEY_PAGE
 import com.astro.test.irwan.utils.Constant.KEY_PER_PAGE
 import com.astro.test.irwan.utils.PreferenceManager.Companion.getPref
+import com.astro.test.irwan.utils.gone
+import com.astro.test.irwan.utils.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,6 +33,15 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
     override fun onCreateBinding(savedInstanceState: Bundle?) {
 
         mainAdapter = MainAdapter()
+        mainAdapter.onItemClick = {
+            lifecycleScope.launch {
+                mainViewModel.updateFavorite(it, !it.isFavorite)
+            }
+            if (it.isFavorite)
+                Toast.makeText(this, "Hapus Favorit", Toast.LENGTH_SHORT).show()
+            else
+                Toast.makeText(this, "Berhasil Favorit", Toast.LENGTH_SHORT).show()
+        }
         binding.rvUser.adapter = mainAdapter
         binding.rvUser.adapter = mainAdapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
@@ -50,6 +62,7 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
                 }
             }
         })
+
         if (getPref(this).prefSortAsc) {
             binding.rbAsc.isChecked = true
             binding.rbDesc.isChecked = false
@@ -92,7 +105,7 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
                                     rbGroup.gone()
                                     tvUserNotFound.gone()
                                 }
-                                is LoadState.NotLoading -> {
+                                is LoadState.NotLoading, -> {
                                     if (mainAdapter.itemCount > 0) {
                                         rvUser.visible()
                                         rbGroup.visible()

@@ -17,5 +17,5 @@ data class GithubEntity(
     val image: String,
 
     @ColumnInfo(name = "isFavorite")
-    val is_favorite: Boolean
+    var isFavorite: Boolean = false
 )

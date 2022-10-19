@@ -15,4 +15,9 @@ class LocalDataSource(private val githubDao: GithubDao, private val remoteKeysDa
 
     suspend fun getRemoteKeysId(id: Int) = remoteKeysDao.getRemoteKeysId(id)
 
+    suspend fun updateFavorite(githubEntity: GithubEntity, newState: Boolean) {
+        githubEntity.isFavorite = newState
+        githubDao.updateFavorite(githubEntity)
+    }
+
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.astro.test.irwan.core.data.source.local.entity.GithubEntity" />
+            type="com.astro.test.irwan.core.domain.model.Github" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/favorite"
+            android:setImageFavorite="@{data.favorite}"
             android:src="@drawable/ic_baseline_favorite"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"

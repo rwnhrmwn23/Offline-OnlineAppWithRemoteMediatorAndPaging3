@@ -1,7 +1,7 @@
 package com.astro.test.irwan.core.domain.repository
 
 import androidx.paging.PagingData
-import com.astro.test.irwan.core.data.source.local.entity.GithubEntity
+import com.astro.test.irwan.core.domain.model.Github
 import kotlinx.coroutines.flow.Flow
 
 interface AstroRepository {
@@ -10,5 +10,7 @@ interface AstroRepository {
         isAsc: Boolean,
         page: Int,
         perPage: Int
-    ): Flow<PagingData<GithubEntity>>
+    ): Flow<PagingData<Github>>
+
+    suspend fun updateFavorite(github: Github, state: Boolean)
 }
